@@ -1,3 +1,19 @@
 body{
-    background: red;
+    background: #fefefe;
+}
+
+#header{
+    .navbar{
+        border-radius: 0;
+    }
+}
+
+#footer{
+    &.footer-inverse{
+        background: #222222;
+        padding: 2rem;
+        p{
+            color: white;
+        }
+    }
 }
