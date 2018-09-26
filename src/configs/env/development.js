@@ -41,4 +41,6 @@ module.exports = (app) => {
     }));
 
     mongoose.connect(app.get('mongo_url'), { useNewUrlParser: true });
+
+    require('./../helpers')(hbs);
 }

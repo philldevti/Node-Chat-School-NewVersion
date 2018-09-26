@@ -1,0 +1,16 @@
+<div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" class="form-control" name="name" placeholder="Enter room name" value="{{ room.name }}"> 
+</div>
+<div class="form-group">
+    <label for="description">Description</label>
+    <input type="text" class="form-control" name="description" placeholder="Enter room name" value="{{ room.description }}">
+</div>
+<div class="form-group">
+    <label for="enable">Situação</label>
+    <input type="checkbox"  name="enable" value="{{ room.enable }}" {{checkedIf room.enable}}>
+    <label for="enable">Ativo/Desativo?</label>
+</div>
+<div class="form-group">
+    <button type="submit" class="btn btn-primary">Save</button>
+</div>

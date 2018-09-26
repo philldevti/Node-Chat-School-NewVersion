@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 
 const createRules = require('./../validator/users/create');
+const editRules = require('./../validator/users/edit');
+const removeRules = require('./../validator/users/remove');
+const updateRules = require('./../validator/users/update');
+
 
 //edpoint de entrada para aplicação utilizar
 router.get('/', require('./../../services/users/index'));

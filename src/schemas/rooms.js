@@ -9,6 +9,10 @@ const Rooms = new mongoose.Schema({
         type: String,
         required: true
     },
+    description: {
+        type: String,
+        required: true
+    },
     enable: {
         type: Boolean,
         required: true,

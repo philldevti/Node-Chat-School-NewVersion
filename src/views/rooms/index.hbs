@@ -1,0 +1,36 @@
+<div class="panel panel-default">
+    <div class="panel heading">
+        List of Rooms
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each rooms }}
+                    <tr>
+                        <td>{{this.name}}</td>
+                        <td>{{this.description}}</td>
+                        <td>
+                            <a href="/rooms/edit/{{this.slug}}" class="btn btn-info">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                             <form class="inline" action="/rooms/{{ this._id}}?_method=DELETE" method="POST">
+                                <button type="submit" class="btn btn-danger" title="Save">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

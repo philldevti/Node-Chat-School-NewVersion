@@ -1,0 +1,10 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <b>Edit User</b>
+    </div>
+    <div class="panel-body">
+        <form action="/rooms/{{room._id}}?_method=PUT" method="POST" >
+        {{> rooms/_form}}
+        </form>
+    </div>
+</div>
