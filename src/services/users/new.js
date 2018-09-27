@@ -4,6 +4,7 @@ module.exports = (req,res) => {
 
     return res.render('users/create', {
         title: 'Users - ChatSchool Admin',
-        user: user
+        user: user,
+        user_logged: req.user
     })
 };

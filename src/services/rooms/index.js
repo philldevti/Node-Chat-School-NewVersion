@@ -6,7 +6,8 @@ module.exports  = (req, res) => {
          .then((rooms) =>{
              return res.render('rooms/index', {
                  title: 'Rooms - ChatSchool Admin',
-                 rooms
+                 rooms,
+                 user_logged: req.user
              })
          })
          .catch((error) => {

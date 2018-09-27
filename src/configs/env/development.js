@@ -7,6 +7,8 @@ const expressValidator = require('express-validator');
 const hbs = require('express-hbs');
 const express = require('express');
 const mongoose = require('mongoose');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 
 module.exports = (app) => {
     app.set('port', 9000);
@@ -42,5 +44,11 @@ module.exports = (app) => {
 
     mongoose.connect(app.get('mongo_url'), { useNewUrlParser: true });
 
+    app.use(passport.initialize());
+    app.use(passport.session());
+    passport.use(new LocalStrategy(require('./../../schemas/users').authenticate()));
+    passport.serializeUser(require('./../../schemas/users').serializeUser());
+    passport.deserializeUser(require('./../../schemas/users').deserializeUser());
+    
     require('./../helpers')(hbs);
 }

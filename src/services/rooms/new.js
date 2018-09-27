@@ -5,6 +5,7 @@ module.exports  = (req, res) => {
 
     return res.render('rooms/create', {
         title: 'Rooms - ChatSchool Admin',
-        room
+        room,
+        user_logged: req.user
     });
 };

@@ -10,6 +10,7 @@
                 </button>
                 <a href="/" class="navbar-brand">ChatSchool</a>
             </div>
+            {{#if user_logged}}
             <div class="collapse navbar-collapse" id="nav">
                 <ul class="nav navbar-nav">
                     <li class="active">
@@ -41,6 +42,7 @@
                     </li>
                 </ul>
             </div>
+            {{/if}}
         </div>
     </nav>
 </header>

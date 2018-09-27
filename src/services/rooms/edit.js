@@ -12,7 +12,8 @@ module.exports  = (req, res) => {
 
             return res.render('rooms/edit',{
                 title: 'Rooms - ChatSchoool Admin',
-                room
+                room,
+                user_logged: req.user
             });
          })
          .catch((error) =>{
