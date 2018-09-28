@@ -14,14 +14,27 @@ const del  = require('del');
 const uglify = require('gulp-uglify');
 const connect = require('gulp-connect');
 const sass = require('gulp-sass');
+const nodemon = require('gulp-nodemon');
 
 let onError = () =>{
     gutil.beep();
     gutil.log(gutil.colors.red(err));
 }
 
+let initServer = () =>{
+    liverreload.listen();
+    nodemon({
+        script: 'app.js',
+        ext: 'js'
+    }).on('restart', () => {
+        gulp.src('app.js')
+            .pipe(liverreload())
+            .pipe(notify('Reloading...'))
+    });
+}
+
 const paths = {
-    fontsSrc : 'src/fonts',
+    fontsSrc : 'src/fonts/',
     htmlSrc: 'src/',
     sassSrc: 'src/scss/',
     jsSrc: 'src/js/',
@@ -65,7 +78,7 @@ gulp.task('build-js', () => {
 
 gulp.task('build-fonts', () =>{
     return gulp
-               .src(paths.fontsSrc.concat('**/**'))
+               .src(paths.fontsSrc.concat('**/*.*'))
                .pipe(gulp.dest(paths.buildDir.concat('fonts')))
                .pipe(livereload());
 });
@@ -80,13 +93,14 @@ gulp.task('build-images', () => {
 
 gulp.task('build', ['build-html', 'build-css', 'build-js', 'build-images', 'build-fonts'], () =>{
     return connect.server({
-        roor: 'src',
+        root: 'build',
         livereload: true
     });
 });
 
 gulp.task('watch', () =>{
     gulp.watch('src/*.html', ['build-html']);
+    gulp.watch('src/fonts/**', ['build-fonts']);
     gulp.watch('src/scss/**', ['build-css']);
     gulp.watch(paths.jsSrc.concat('**/*.js'), ['build-js']);
     gulp.watch(paths.imgSrc.concat('**/*.+(png|jpg|jpeg|gif|svg)'), ['build-images']);
