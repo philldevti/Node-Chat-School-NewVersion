@@ -22,9 +22,9 @@ let onError = () =>{
 
 const paths = {
     fontsSrc : 'src/fonts',
-    htmlSrc: 'src',
+    htmlSrc: 'src/',
     sassSrc: 'src/scss/',
-    jsSrc: 'src/js',
+    jsSrc: 'src/js/',
     imgSrc: 'src/images/',
 
     buildDir: 'build/',
@@ -50,7 +50,7 @@ gulp.task('build-css', () =>{
                    }
                }))
                .pipe(plumber({ errorHandler: onError }))
-               .pipe(gulp.dest(paths.buildDir.concat('/css')))
+               .pipe(gulp.dest(paths.buildDir.concat('css')))
                .pipe(livereload());
 });
 
@@ -58,28 +58,28 @@ gulp.task('build-js', () => {
     return gulp
                .src(paths.jsSrc.concat('*.js'))
                .pipe(plumber({ errorHandler: onError})
-               .pipe(changed(paths.buildDir.concat('/js'))))
-               .pipe(gulp.dest(paths.buildDir.concat('/js')))
+               .pipe(changed(paths.buildDir.concat('js'))))
+               .pipe(gulp.dest(paths.buildDir.concat('js')))
                .pipe(livereload());
 });
 
 gulp.task('build-fonts', () =>{
     return gulp
                .src(paths.fontsSrc.concat('**/**'))
-               .pipe(gulp.dest(paths.buildDir.concat('/fonts')))
+               .pipe(gulp.dest(paths.buildDir.concat('fonts')))
                .pipe(livereload());
 });
 
 gulp.task('build-images', () => {
     return gulp
                .src(paths.imgSrc.concat('**/*.+(png|jpg|jpeg|gif|svg)'))
-               .pipe(changed(paths.buildDir.concat('/images')))
-               .pipe(gulp.dest(paths.buildDir.concat('/images')))
+               .pipe(changed(paths.buildDir.concat('images')))
+               .pipe(gulp.dest(paths.buildDir.concat('images')))
                .pipe(livereload());
 });
 
-gulp.task('build', ['build-html', 'build-css', 'build-sass', 'build-images', 'build-fonts'], () =>{
-    return connect({
+gulp.task('build', ['build-html', 'build-css', 'build-js', 'build-images', 'build-fonts'], () =>{
+    return connect.server({
         roor: 'src',
         livereload: true
     });
@@ -89,11 +89,11 @@ gulp.task('watch', () =>{
     gulp.watch('src/*.html', ['build-html']);
     gulp.watch('src/scss/**', ['build-css']);
     gulp.watch(paths.jsSrc.concat('**/*.js'), ['build-js']);
-    gulp.watch(paths.imgSrc.concat('**/*.+(png|jpg|jpeg|gif|svg)'), 'build-images');
+    gulp.watch(paths.imgSrc.concat('**/*.+(png|jpg|jpeg|gif|svg)'), ['build-images']);
 });
 
 const ENV = process.env.NODE_ENV || 'development';
 
-if(ENV === 'developent'){
+if(ENV === 'development'){
     return gulp.task('default', ['build', 'watch']);
 }
