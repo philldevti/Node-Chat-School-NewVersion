@@ -6,6 +6,8 @@ var logger = require('morgan');
 var mongoose = require('mongoose');
 
 var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -19,7 +21,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 mongoose.connect('mongodb://127.0.0.1:27017/chatschool_dev', { useNewUrlParser: true })
 
+app.use((req, res, next) =>{
+  res.io = io,
+  next()
+});
+
 require('./routes')(app);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -37,4 +46,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+module.exports = { 
+  app: app, 
+  server: server
+};
