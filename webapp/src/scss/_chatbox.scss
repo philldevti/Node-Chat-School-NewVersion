@@ -1,0 +1,48 @@
+.chatbox{
+    padding: 0;
+    .header{
+        padding: 1rem 15px;
+        border-bottom: 1px solid #ebebeb;
+        .username{
+            font-size: 1em;
+            font-weight: bold;
+        }
+    }
+    .conversation{
+        .message{     
+            &.first-chil{
+                margin: 1em 0;        
+            }
+            margin: 1em 0 0 0;
+            .avatar{
+                border-radius: 10%;
+                border: 1px solid #ebebeb;
+                padding: 2em 0 1.5em;
+                background: #3C382C;
+                h2{
+                    color: white;
+                    text-align: center;
+                    margin: 0;
+                    font-weight: bold;
+                }
+            }
+            .text{
+                padding: 1.8em 15px;
+                font-size: 1.2em;
+                margin: 0;
+                font-weight: 300;
+            }
+        }
+    }
+    .type{
+        margin: 1rem 0 0 0;
+        form{
+            .form-control{
+                border-top: 1px solid #3C382C;
+                &:focus{
+                    box-shadow: none;
+                }
+            }
+        }
+    }
+}
