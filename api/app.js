@@ -26,6 +26,14 @@ app.use((req, res, next) =>{
   next()
 });
 
+io.on('connection', function(socket){
+  console.log('A new connection has been established');
+
+  socket.on('message', function(data){
+    console.log(data);
+  })
+})
+
 require('./routes')(app);
 
 
