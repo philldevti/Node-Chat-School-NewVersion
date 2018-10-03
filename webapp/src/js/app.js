@@ -3,9 +3,9 @@ $(document).ready(function () {
     var socket = io('//localhost:3000');
     (function ($) {
         $('.chatbox').hide();
-        var getRooms = function() {
-            return $.get('http://localhost:3000/rooms', function(data){
-                if(!data.status){
+        var getRooms = function () {
+            return $.get('http://localhost:3000/rooms', function (data) {
+                if (!data.status) {
                     return;
                 }
 
@@ -24,13 +24,32 @@ $(document).ready(function () {
                     channel.append(roomTpl);
                 });
 
-                
+
             });
         }
 
         getRooms();
-    })($);
 
+
+        var getUsers = function () {
+            $.get('http://localhost:3000/users', function (data) {
+                if (!data.status) {
+                    return;
+                }
+
+                var users = data && data.users;
+
+                users.forEach((user, index) => {
+                    var userTpl = `<li class="list-group-item">${ user.name }</li>`;
+
+                    $('.messages').append(userTpl);
+                });
+
+            });
+        }
+
+        getUsers();
+    })($);
     
     var currentRoom = undefined;
 
