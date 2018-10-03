@@ -16,7 +16,7 @@ module.exports = (req, res) => {
             return res
                      .status(200)
                      .json({
-                         status: false,
+                         status: true,
                          rooms
                      });
         })
@@ -24,7 +24,7 @@ module.exports = (req, res) => {
             return res
                      .status(500)
                      .json({
-                         status: true,
+                         status: false,
                          error
                      })
         });
