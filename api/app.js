@@ -34,12 +34,26 @@ io.on('connection', function(socket){
   console.log('A new connection has been established');
 
   socket.on('message room', function(data){
-    socket.broadcast.in(data.room).emit('messaged room', {
+    socket.broadcast.in(data.room).emit('messaged', {
       message: data.message,
       room: data.room
     });
   });
+
+  socket.on('message user', function(data){
+    socket.broadcast.in(data.user).emit('messaged', {
+      message: data.message,
+      user: data.user
+    });
+  });
   
+  socket.on('join user', function(data){
+    socket.user = data.user;
+    socket.join(socket.user);
+
+    socket.emit('joined user', data); 
+  });
+
   socket.on('join room', function(data){
     socket.room = data.room;
     socket.join(socket.room);

@@ -1,6 +1,9 @@
 $(document).ready(function () {
 
     var socket = io('//localhost:3000');
+    var currentRoom = undefined;
+    var currentUser = undefined;
+
     (function ($) {
         $('.chatbox').hide();
         var getRooms = function () {
@@ -40,7 +43,7 @@ $(document).ready(function () {
                 var users = data && data.users;
 
                 users.forEach((user, index) => {
-                    var userTpl = `<li class="list-group-item">${ user.name }</li>`;
+                    var userTpl = `<li class="list-group-item user" user="${user._id}" username="${ user.name }">${ user.name }</li>`;
 
                     $('.messages').append(userTpl);
                 });
@@ -51,12 +54,10 @@ $(document).ready(function () {
         getUsers();
     })($);
     
-    var currentRoom = undefined;
-
     $('.channels').on('click','.channel', function(e){
         var roomId = $(this).attr('channel');
         var roomName = $(this).attr('name');
-        
+                
         console.log(roomId);
         console.log(roomName);
 
@@ -80,10 +81,19 @@ $(document).ready(function () {
                 return;
             }
 
-            socket.emit('message room', {
-                message: message,
-                room: currentRoom
-            });
+            if(!currentRoom){                
+                socket.emit('message user', {
+                    message: message,
+                    user: currentUser
+                });
+            }
+
+            if(currentRoom){
+                socket.emit('message room', {
+                    message: message,
+                    room: currentRoom
+                });
+            }
 
             var msgTpl = `
                             <div class="col-xs-12 message">
@@ -101,6 +111,12 @@ $(document).ready(function () {
         }
     });
 
+    socket.on('joined user', function(data){
+        currentUser = data.user;
+        $('.username').html('@' + data.username);
+        $('.chatbox').show();
+    });
+
     socket.on('joined room', function(data){
         currentRoom = data.room;
         $('.username').html(`@${data.roomName}`);
@@ -113,7 +129,7 @@ $(document).ready(function () {
         $('.conversation').html('');        
     });
 
-    socket.on('messaged room', function (data) {
+    socket.on('messaged', function (data) {
         if(!data.message){
             return;
         }
@@ -130,6 +146,19 @@ $(document).ready(function () {
                             <p class="text col-xs-6 col-md-11">${data.message}</p>
                         </div>`;
         $(".conversation").append(msgTpl);
+    });
+
+    $('.messages').on('click', '.user',function(e){
+        var username = $(this).attr('username');
+        var user = $(this).attr('user');
+
+        socket.emit('join user', {
+            userId: user,
+            username: username
+        });
+
+        $('.conversation').html('');
+        return false;
     });
 
     $('#btn_leave').on('click', function(e){
